@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Medicine Reminder</string>
+
+    <string name="description_banner">Free app that can help to notify your time. You will be able to remember again time to use you pills with very simple little steps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

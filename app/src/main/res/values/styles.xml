@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ImageView.Corner" parent="">
+        <item name="cornerSizeTopRight">0dp</item>
+        <item name="cornerSizeTopLeft">0dp</item>
+        <item name="cornerSizeBottomLeft">100dp</item>
+        <item name="cornerSizeBottomRight">100dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+    <style name="ImageView.RadiusBoth" parent="">
+        <item name="cornerSizeTopRight">30dp</item>
+        <item name="cornerSizeTopLeft">30dp</item>
+        <item name="cornerSizeBottomLeft">30dp</item>
+        <item name="cornerSizeBottomRight">30dp</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+</resources>
