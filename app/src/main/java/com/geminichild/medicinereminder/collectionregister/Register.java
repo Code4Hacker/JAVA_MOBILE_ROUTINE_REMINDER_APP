@@ -32,10 +32,10 @@ import java.util.Map;
 
 public class Register extends Fragment {
     Button new_btn;
-    EditText full_name, email, passcode, confirm_pwd;
+    EditText full_name, email, phone, passcode, confirm_pwd;
     RequestQueue requestQueue;
 
-    final String request_register = "http://192.168.21.138/medical_reminder/grabup.php";
+    final String request_register = "http://192.168.134.138/medical_reminder/grabup.php";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class Register extends Fragment {
         passcode = (EditText) view.findViewById(R.id.passcode);
         confirm_pwd = (EditText) view.findViewById(R.id.confirm_pwd);
         new_btn = (Button) view.findViewById(R.id.signupBtn);
+        phone = (EditText) view.findViewById(R.id.phone);
 
         new_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +77,7 @@ public class Register extends Fragment {
         final String fullname = full_name.getText().toString().trim();
         final String mail = email.getText().toString().trim();
         final String code_pass = passcode.getText().toString().trim();
+        final String phonenumber = phone.getText().toString().trim();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, request_register, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -87,6 +89,7 @@ public class Register extends Fragment {
                         email.setText("");
                         passcode.setText("");
                         confirm_pwd.setText("");
+                        phone.setText("");
                         ((Registration) requireActivity()).navigatetoLogin();
                     }else{
                         Log.i("NOT RESULT MSQLI",result);
@@ -109,6 +112,7 @@ public class Register extends Fragment {
                 params.put("fullname", String.valueOf(fullname));
                 params.put("mail_post", String.valueOf(mail));
                 params.put("passcode", String.valueOf(code_pass));
+                params.put("Phone",String.valueOf(phonenumber));
 
                 return params;
             }

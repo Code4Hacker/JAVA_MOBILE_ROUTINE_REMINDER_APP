@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -38,6 +39,7 @@ public class Dashboard extends AppCompatActivity {
         username = (TextView) findViewById(R.id.profilename);
         emaiDashboard = (TextView) findViewById(R.id.emaiDashboard);
         if(savedInstanceState == null){
+            viewPager2.setCurrentItem(1);
             Bundle extrasInfo = getIntent().getExtras();
             if(extrasInfo == null){
                 email_retrived = null;
@@ -84,7 +86,7 @@ public class Dashboard extends AppCompatActivity {
     public void getFullUserInfo(){
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        final String request_get_user_url = "http://192.168.21.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
+        final String request_get_user_url = "http://192.168.134.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {
             @Override

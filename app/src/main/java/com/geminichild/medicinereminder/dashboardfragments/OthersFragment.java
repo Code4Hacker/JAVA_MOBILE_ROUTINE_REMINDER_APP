@@ -2,65 +2,101 @@ package com.geminichild.medicinereminder.dashboardfragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.TaskAdapter;
+import com.geminichild.medicinereminder.TaskModel;
+import com.geminichild.medicinereminder.VolleySingleton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OthersFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class OthersFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public OthersFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OthersFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static OthersFragment newInstance(String param1, String param2) {
-        OthersFragment fragment = new OthersFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private RecyclerView taskrecycle;
+    private RequestQueue requestQueue;
+    private List<TaskModel> taskList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_others, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        taskrecycle = (RecyclerView) view.findViewById(R.id.task_recycle);
+        taskrecycle.setHasFixedSize(true);
+        taskrecycle.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        requestQueue = VolleySingleton.getmInstance(getActivity()).getRequestQueue();
+        taskList = new ArrayList<>();
+        fetchTasks();
+    }
+
+    private void fetchTasks() {
+        String requesting_url = "http://192.168.134.138/medical_Reminder/content_post.php?UserId=1";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    String findstatus = jsonObject.getString("status");
+                    JSONObject status = new JSONObject(findstatus);
+                    String getstatus = status.getString("success").toString();
+                    if(getstatus.equals("200")){
+
+                        String taskcontentHeader = jsonObject.getString("contents");
+                        JSONArray jsonArray = new JSONArray(taskcontentHeader);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            String title = jsonObject1.getString("ActivityTitle");
+                            String description = jsonObject1.getString("ActivityDescription");
+                            String notifyTime = jsonObject1.getString("NotifyTime");
+//                            String notifyDate = jsonObject1.getString("NotifyDate");
+                            String taskComplete = jsonObject1.getString("taskComplete");
+
+                           TaskModel taskModel = new TaskModel(title, description, notifyTime, taskComplete);
+                           taskList.add(taskModel);
+
+                        }
+                    }else {
+                        Log.i("REQUEST QUESSS", "400");
+                    }
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                TaskAdapter taskAdapter = new TaskAdapter(getActivity(), taskList);
+                taskrecycle.setAdapter(taskAdapter);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("Response Errors", error.toString());
+            }
+        });
+        requestQueue.add(stringRequest);
     }
 }
