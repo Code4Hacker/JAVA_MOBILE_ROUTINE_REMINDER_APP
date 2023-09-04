@@ -4,6 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
+    private int lastpos = -1;
     private Context context;
     private List<TaskModel> taskModelList;
 
@@ -31,8 +35,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         TaskModel taskModel = taskModelList.get(position);
         holder.tasktitle.setText(taskModel.getActivityTitle().toString());
         holder.description.setText(taskModel.getActivityDescription().toString());
-        holder.completed.setText(taskModel.getTaskComplete().toString());
+        if(taskModel.getTaskComplete().toString().equals("true")){
+            holder.completed.setChecked(true);
+        }else {
+            holder.completed.setChecked(false);
+        }
         holder.notifytime.setText(taskModel.getNotifyTime().toString());
+        setAnimation(holder.itemView, position);
+    }
+
+    private void setAnimation(View itemView, int position) {
+        if(position > lastpos)
+        {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            itemView.startAnimation(animation);
+            lastpos = position;
+        }else {
+            lastpos = 0;
+        }
     }
 
     @Override
@@ -41,7 +61,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     public class TaskHolder extends RecyclerView.ViewHolder {
-        TextView tasktitle, description, completed, notifytime;
+        TextView tasktitle, description, notifytime;
+        CheckBox completed;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);

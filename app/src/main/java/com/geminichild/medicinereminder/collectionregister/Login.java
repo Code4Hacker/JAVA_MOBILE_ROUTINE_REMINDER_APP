@@ -66,7 +66,7 @@ public class Login extends Fragment {
     }
     private void LoginVolleyConfigure(){
         requestQueue  = Volley.newRequestQueue(getActivity());
-        final String requested_url = "http://192.168.134.138/medical_reminder/grabin.php";
+        final String requested_url = "http://192.168.59.138/medical_reminder/grabin.php";
         final String email = email_in.getText().toString().trim();
         final String passcode = passcode_in.getText().toString().trim();
 

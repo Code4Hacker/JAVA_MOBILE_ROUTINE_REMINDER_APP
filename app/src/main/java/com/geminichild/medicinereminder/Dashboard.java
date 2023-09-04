@@ -38,8 +38,13 @@ public class Dashboard extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         username = (TextView) findViewById(R.id.profilename);
         emaiDashboard = (TextView) findViewById(R.id.emaiDashboard);
+        viewPager2 = (ViewPager2) findViewById(R.id.dashboardview);
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
+        DashBoardAdapter dashBoardAdapter = new DashBoardAdapter(this);
+        viewPager2.setAdapter(dashBoardAdapter);
         if(savedInstanceState == null){
             viewPager2.setCurrentItem(1);
+            bottomNavigationView.getMenu().getItem(1).setChecked(true);
             Bundle extrasInfo = getIntent().getExtras();
             if(extrasInfo == null){
                 email_retrived = null;
@@ -53,10 +58,6 @@ public class Dashboard extends AppCompatActivity {
             pwd = (String) savedInstanceState.getSerializable("passcode");
         }
         getFullUserInfo();
-        viewPager2 = (ViewPager2) findViewById(R.id.dashboardview);
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
-        DashBoardAdapter dashBoardAdapter = new DashBoardAdapter(this);
-        viewPager2.setAdapter(dashBoardAdapter);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -86,7 +87,7 @@ public class Dashboard extends AppCompatActivity {
     public void getFullUserInfo(){
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        final String request_get_user_url = "http://192.168.134.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
+        final String request_get_user_url = "http://192.168.59.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {
             @Override
