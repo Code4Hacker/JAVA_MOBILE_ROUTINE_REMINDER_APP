@@ -68,6 +68,7 @@
         android:textColor="@color/white"
         android:textFontWeight="900"
         android:textSize="30sp"
+        android:id="@+id/preview"
         android:typeface="serif"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
-
-        <shape android:shape="rectangle">
-            <corners android:radius="10dp"/>
-            <solid android:color="#FAFFFFFF"/>
-        </shape>
+        <inset
+            android:insetTop="-12dp"
+            android:insetLeft="10dp"
+            android:insetRight="-12dp"
+            android:insetBottom="-12dp">
+            <shape android:shape="rectangle">
+                <corners android:radius="10dp"/>
+                <solid android:color="#FAFFFFFF"/>
+                <stroke android:width="10dp" android:color="@color/primary_color"/>
+            </shape>
+        </inset>
     </item>
+
 </selector>

@@ -87,7 +87,7 @@ public class Dashboard extends AppCompatActivity {
     public void getFullUserInfo(){
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        final String request_get_user_url = "http://192.168.59.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
+        final String request_get_user_url = "http://192.168.138.1/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {
             @Override

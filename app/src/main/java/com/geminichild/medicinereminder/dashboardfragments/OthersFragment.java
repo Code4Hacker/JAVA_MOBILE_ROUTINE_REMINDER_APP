@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -55,8 +56,9 @@ public class OthersFragment extends Fragment {
         fetchTasks();
     }
 
-    private void fetchTasks() {
-        String requesting_url = "http://192.168.59.138/medical_Reminder/content_post.php?UserId=1";
+
+    public void fetchTasks() {
+        String requesting_url = "http://192.168.138.1/medical_Reminder/content_post.php?UserId=1";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -74,10 +76,10 @@ public class OthersFragment extends Fragment {
                             String title = jsonObject1.getString("ActivityTitle");
                             String description = jsonObject1.getString("ActivityDescription");
                             String notifyTime = jsonObject1.getString("NotifyTime");
-//                            String notifyDate = jsonObject1.getString("NotifyDate");
+                            String taskid = jsonObject1.getString("ActivityId");
                             String taskComplete = jsonObject1.getString("taskComplete");
 
-                           TaskModel taskModel = new TaskModel(title, description, notifyTime, taskComplete);
+                           TaskModel taskModel = new TaskModel(title, description, notifyTime, taskid, taskComplete);
                            taskList.add(taskModel);
 
                         }

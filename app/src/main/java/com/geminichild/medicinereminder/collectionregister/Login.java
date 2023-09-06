@@ -1,17 +1,20 @@
 package com.geminichild.medicinereminder.collectionregister;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,6 +38,7 @@ public class Login extends Fragment {
     Button signin;
     EditText email_in, passcode_in;
     RequestQueue requestQueue;
+    CheckBox rememberme;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +53,12 @@ public class Login extends Fragment {
         signin = (Button) view.findViewById(R.id.signin_btn);
         email_in = (EditText) view.findViewById(R.id.email);
         passcode_in = (EditText) view.findViewById(R.id.passcode_in);
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+//        boolean remember_me =  sharedPreferences.getBoolean("remember_me", false);
+//        if(remember_me){
+//            startActivity(new Intent(getActivity(), Dashboard.class));
+//            getActivity().finish();
+//        }
 
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +76,7 @@ public class Login extends Fragment {
     }
     private void LoginVolleyConfigure(){
         requestQueue  = Volley.newRequestQueue(getActivity());
-        final String requested_url = "http://192.168.59.138/medical_reminder/grabin.php";
+        final String requested_url = "http://192.168.138.1/medical_reminder/grabin.php";
         final String email = email_in.getText().toString().trim();
         final String passcode = passcode_in.getText().toString().trim();
 
@@ -80,6 +90,7 @@ public class Login extends Fragment {
                        Intent intent = new Intent(getActivity(), Dashboard.class);
                        intent.putExtra("userMail", String.valueOf(email));
                        intent.putExtra("passcode", String.valueOf(passcode));
+
                        startActivity(intent);
                    }else{
                        Toast.makeText(getActivity(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
