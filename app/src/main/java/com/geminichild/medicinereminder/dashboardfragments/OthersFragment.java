@@ -1,5 +1,7 @@
 package com.geminichild.medicinereminder.dashboardfragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -58,7 +60,14 @@ public class OthersFragment extends Fragment {
 
 
     public void fetchTasks() {
-        String requesting_url = "http://192.168.50.138/medical_Reminder/content_post.php?UserId=1";
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        String id = sharedPreferences.getString("user","");
+
+        if(id.equals("")){
+            id = "0";
+        }
+        String lastid = id;
+        String requesting_url = "http://192.168.50.138/medical_Reminder/content_post.php?UserId="+lastid;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

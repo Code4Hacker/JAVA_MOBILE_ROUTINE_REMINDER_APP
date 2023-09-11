@@ -159,9 +159,17 @@ public class AlarmsFragment extends Fragment {
         final String activitytitle = headline.getText().toString().trim();
         final String activitydescr = description.getText().toString().trim();
         final String notified_at =  preview.getText().toString().trim();
+        String userid = sharedPreferences.getString("user","");
+
+        if(userid.equals("")){
+            userid = "0";
+        }
 
         SimpleDateFormat formatme = new SimpleDateFormat("dd MMMM yyyy");
         String cal = formatme.format(new Date());
+        String finalUserid = userid;
+        Toast.makeText(getActivity(), finalUserid, Toast.LENGTH_SHORT).show();
+
         stringRequest = new StringRequest(Request.Method.POST, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -170,7 +178,6 @@ public class AlarmsFragment extends Fragment {
                     String results = jsonObject.getString("success").toString();
 
                     if(results.equals("200")){
-                        Toast.makeText(getActivity(), "sent", Toast.LENGTH_SHORT).show();
                         headline.setText("");
                         description.setText("");
                         preview.setText("");
@@ -201,12 +208,12 @@ public class AlarmsFragment extends Fragment {
                 params.put("NotifyTime", String.valueOf(notified_at));
                 params.put("taskComplete", "false");
                 params.put("NotifyDate", String.valueOf(cal));
-                params.put("UserId", "1");
+                params.put("UserId", finalUserid);
                 params.put("RequestCode",  String.valueOf(requestcode));
                 return params;
             }
         };
-//        requestQueue.add(stringRequest);
+        requestQueue.add(stringRequest);
     }
     private void createAlarm(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
