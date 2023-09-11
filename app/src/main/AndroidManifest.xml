@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
@@ -10,7 +11,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/medical"
-        android:label="@string/app_name"
+        android:label="Routine Reminder"
         android:networkSecurityConfig="@xml/network_configuration"
         android:roundIcon="@drawable/medical"
         android:requestLegacyExternalStorage="true"
@@ -35,6 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

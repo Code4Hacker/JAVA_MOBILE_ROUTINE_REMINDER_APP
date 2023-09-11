@@ -35,7 +35,7 @@ public class Register extends Fragment {
     EditText full_name, email, phone, passcode, confirm_pwd;
     RequestQueue requestQueue;
 
-    final String request_register = "http://192.168.59.138/medical_reminder/grabup.php";
+    final String request_register = "http://192.168.138.1/medical_reminder/grabup.php";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

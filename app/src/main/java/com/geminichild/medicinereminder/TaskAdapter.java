@@ -1,6 +1,9 @@
 package com.geminichild.medicinereminder;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +59,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.taskid.setText(taskModel.getActivityId().toString());
         if(taskModel.getTaskComplete().toString().equals("true")){
             holder.completed.setChecked(true);
+
         }else {
             holder.completed.setChecked(false);
         }

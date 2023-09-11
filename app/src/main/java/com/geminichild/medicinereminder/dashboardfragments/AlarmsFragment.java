@@ -1,8 +1,14 @@
 package com.geminichild.medicinereminder.dashboardfragments;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +31,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.geminichild.medicinereminder.AlarmReceiver;
 import com.geminichild.medicinereminder.Dashboard;
 import com.geminichild.medicinereminder.R;
 import com.geminichild.medicinereminder.databinding.FragmentAlarmsBinding;
@@ -34,6 +41,9 @@ import com.google.android.material.timepicker.TimeFormat;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +52,12 @@ public class AlarmsFragment extends Fragment {
     EditText headline, description;
     TextView preview;
     MaterialTimePicker materialTimePicker;
+    AlertDialog.Builder alertDialog;
     String notified;
     StringRequest stringRequest;
     RequestQueue requestQueue;
+    Calendar calendar;
+    AlarmManager alarmManager;
     final String requesting_url = "http://192.168.138.1/medical_reminder/content_post.php";
 
     @Override
@@ -60,7 +73,7 @@ public class AlarmsFragment extends Fragment {
 
                 addAlarm = (Button) view.findViewById(R.id.setAlarm);
                 View add_task = LayoutInflater.from(getActivity()).inflate(R.layout.add_new_task, null);
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+                alertDialog = new AlertDialog.Builder(getActivity());
                 alertDialog.setView(add_task);
 
                 final AlertDialog dialogTask = alertDialog.create();
@@ -73,7 +86,7 @@ public class AlarmsFragment extends Fragment {
 
                 apply = (Button) add_task.findViewById(R.id.apply);
                 cancel = (Button) add_task.findViewById(R.id.cancel);
-
+                createAlarm();
                 btn_date.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -100,6 +113,14 @@ public class AlarmsFragment extends Fragment {
                                         preview.setText(materialTimePicker.getHour()+":0"+materialTimePicker.getMinute()+ " AM");
                                     }
                                 }
+                                calendar = Calendar.getInstance();
+                                calendar.set(Calendar.HOUR_OF_DAY, materialTimePicker.getHour());
+                                calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
+                                calendar.set(Calendar.SECOND, 0);
+                                calendar.set(Calendar.MILLISECOND, 0);
+
+                                alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
+
                             }
                         });
                     }
@@ -119,17 +140,22 @@ public class AlarmsFragment extends Fragment {
                 apply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        postAndGetTasks();
+                        Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+                        int requestCode = (int) System.currentTimeMillis();
+                        postAndGetTasks(requestCode, intent, calendar);
                     }
                 });
 
 
 
     }
-    private void postAndGetTasks() {
+    private void postAndGetTasks(int requestcode, Intent intent, Calendar calendar1) {
         final String activitytitle = headline.getText().toString().trim();
         final String activitydescr = description.getText().toString().trim();
         final String notified_at =  preview.getText().toString().trim();
+        SimpleDateFormat formatme = new SimpleDateFormat("dd MMMM yyyy");
+        String cal = formatme.format(new Date());
+        Toast.makeText(getActivity(), cal.toString(), Toast.LENGTH_SHORT).show();
         stringRequest = new StringRequest(Request.Method.POST, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -142,12 +168,9 @@ public class AlarmsFragment extends Fragment {
                         headline.setText("");
                         description.setText("");
                         preview.setText("");
-//                       OthersFragment othersFragment = (OthersFragment) getActivity().getSupportFragmentManager().findFragmentByTag("OthersFragment");
-//                       if(othersFragment ==null){
-//                           Log.e("GTTSYSYYSYSYSYS",othersFragment.toString());
-//                       }else {
-//                           othersFragment.fetchTasks();
-//                       }
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), requestcode, intent, PendingIntent.FLAG_IMMUTABLE);
+                        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+                        Toast.makeText(getActivity(), "Alarmed", Toast.LENGTH_SHORT).show();
 
                     }else{
                         Toast.makeText(getActivity(), "not sent", Toast.LENGTH_SHORT).show();
@@ -171,11 +194,24 @@ public class AlarmsFragment extends Fragment {
                 params.put("ActivityDescription", String.valueOf(activitydescr));
                 params.put("NotifyTime", String.valueOf(notified_at));
                 params.put("taskComplete", "false");
-                params.put("NotifyDate", "13 June 2024");
+                params.put("NotifyDate", String.valueOf(cal));
                 params.put("UserId", "1");
+                params.put("RequestCode",  String.valueOf(requestcode));
                 return params;
             }
         };
         requestQueue.add(stringRequest);
+    }
+    private void createAlarm(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "gemini";
+            String dec = "Waking alarm";
+            int important = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel("geminichild", name, important);
+            notificationChannel.setDescription(dec);
+
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 }
