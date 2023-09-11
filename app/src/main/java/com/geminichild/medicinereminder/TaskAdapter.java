@@ -71,7 +71,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 final String taskCompleted = String.valueOf(b);
                 final String userTask = holder.taskid.getText().toString();
 
-                final String request_code_url ="http://192.168.138.1/medical_reminder/update_task.php";
+                final String request_code_url ="http://192.168.50.138/medical_reminder/update_task.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, request_code_url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

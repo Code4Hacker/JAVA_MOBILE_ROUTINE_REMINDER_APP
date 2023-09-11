@@ -58,7 +58,7 @@ public class OthersFragment extends Fragment {
 
 
     public void fetchTasks() {
-        String requesting_url = "http://192.168.138.1/medical_Reminder/content_post.php?UserId=1";
+        String requesting_url = "http://192.168.50.138/medical_Reminder/content_post.php?UserId=1";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

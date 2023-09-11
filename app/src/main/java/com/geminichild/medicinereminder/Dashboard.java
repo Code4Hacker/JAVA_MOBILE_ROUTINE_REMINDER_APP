@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -87,7 +88,7 @@ public class Dashboard extends AppCompatActivity {
     public void getFullUserInfo(){
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        final String request_get_user_url = "http://192.168.138.1/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
+        final String request_get_user_url = "http://192.168.50.138/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {
             @Override
@@ -101,9 +102,13 @@ public class Dashboard extends AppCompatActivity {
 
                        String usercontainer = jsonObject.getString("user");
                        JSONObject userdata = new JSONObject(usercontainer);
-                       Toast.makeText(Dashboard.this, userdata.getString("Fullname").toString(), Toast.LENGTH_SHORT).show();
+//                       Toast.makeText(Dashboard.this, userdata.getString("Fullname").toString(), Toast.LENGTH_SHORT).show();
                        username.setText("Hi, " + userdata.getString("Fullname").toString());
                        emaiDashboard.setText(userdata.getString("User_email").toString());
+                       SharedPreferences sharedPreferences = getSharedPreferences("userId", MODE_PRIVATE);
+                       SharedPreferences.Editor editor = sharedPreferences.edit();
+                       editor.putString("user", userdata.getString("Id"));
+                       editor.apply();
 
                    }else{
                        Toast.makeText(Dashboard.this, "Status Invalid", Toast.LENGTH_SHORT).show();

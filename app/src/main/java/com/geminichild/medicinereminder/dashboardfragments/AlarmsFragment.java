@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -58,7 +60,9 @@ public class AlarmsFragment extends Fragment {
     RequestQueue requestQueue;
     Calendar calendar;
     AlarmManager alarmManager;
-    final String requesting_url = "http://192.168.138.1/medical_reminder/content_post.php";
+
+
+    final String requesting_url = "http://192.168.50.138/medical_reminder/content_post.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,6 +74,7 @@ public class AlarmsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
                 super.onViewCreated(view, savedInstanceState);
                 requestQueue = Volley.newRequestQueue(getActivity());
+
 
                 addAlarm = (Button) view.findViewById(R.id.setAlarm);
                 View add_task = LayoutInflater.from(getActivity()).inflate(R.layout.add_new_task, null);
@@ -150,12 +155,13 @@ public class AlarmsFragment extends Fragment {
 
     }
     private void postAndGetTasks(int requestcode, Intent intent, Calendar calendar1) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
         final String activitytitle = headline.getText().toString().trim();
         final String activitydescr = description.getText().toString().trim();
         final String notified_at =  preview.getText().toString().trim();
+
         SimpleDateFormat formatme = new SimpleDateFormat("dd MMMM yyyy");
         String cal = formatme.format(new Date());
-        Toast.makeText(getActivity(), cal.toString(), Toast.LENGTH_SHORT).show();
         stringRequest = new StringRequest(Request.Method.POST, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -200,7 +206,7 @@ public class AlarmsFragment extends Fragment {
                 return params;
             }
         };
-        requestQueue.add(stringRequest);
+//        requestQueue.add(stringRequest);
     }
     private void createAlarm(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){

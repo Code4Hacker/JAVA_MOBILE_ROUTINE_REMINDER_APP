@@ -1,5 +1,6 @@
 package com.geminichild.medicinereminder.collectionregister;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -49,34 +51,43 @@ public class Login extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         signin = (Button) view.findViewById(R.id.signin_btn);
         email_in = (EditText) view.findViewById(R.id.email);
         passcode_in = (EditText) view.findViewById(R.id.passcode_in);
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-//        boolean remember_me =  sharedPreferences.getBoolean("remember_me", false);
-//        if(remember_me){
-//            startActivity(new Intent(getActivity(), Dashboard.class));
-//            getActivity().finish();
-//        }
-
+        rememberme = (CheckBox) view.findViewById(R.id.rememberMe);
+        rememberme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Toast.makeText(getActivity(), "please fill Correct Data, the Press SignIn button to Validate, then check Again!", Toast.LENGTH_LONG).show();
+                if (rememberme.isChecked()){
+                    rememberme.setChecked(false);
+                }
+            }
+        });
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(email_in.getText().toString().length() < 10) {
                     Toast.makeText(getActivity(), "Invalid Email", Toast.LENGTH_SHORT).show();
-                }else if(email_in.getText().toString().equals("ge@gmail.com")){
-                    Intent intent = new Intent(getActivity(), Dashboard.class);
-                    startActivity(intent);
+
                 }else{
-                    LoginVolleyConfigure();
+                    loginVolleyConfigure();
                 }
             }
         });
     }
-    private void LoginVolleyConfigure(){
+    private void loginVolleyConfigure(){
+        rememberme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Toast.makeText(getActivity(), "please fill Correct Data, the Press SignIn button to Validate, then check Again!", Toast.LENGTH_LONG).show();
+                if (rememberme.isChecked()){
+                    rememberme.setChecked(false);
+                }
+            }
+        });
         requestQueue  = Volley.newRequestQueue(getActivity());
-        final String requested_url = "http://192.168.138.1/medical_reminder/grabin.php";
+        final String requested_url = "http://192.168.50.138/medical_reminder/grabin.php";
         final String email = email_in.getText().toString().trim();
         final String passcode = passcode_in.getText().toString().trim();
 
@@ -87,11 +98,32 @@ public class Login extends Fragment {
                    JSONObject jsonObject = new JSONObject(response);
                    String res = jsonObject.getString("success").toString();
                    if(res.equals("1")){
-                       Intent intent = new Intent(getActivity(), Dashboard.class);
-                       intent.putExtra("userMail", String.valueOf(email));
-                       intent.putExtra("passcode", String.valueOf(passcode));
+                       rememberme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                           @Override
+                           public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                               Intent intent = new Intent(getActivity(), Dashboard.class);
+                               intent.putExtra("userMail", String.valueOf(email));
+                               intent.putExtra("passcode", String.valueOf(passcode));
+                               if(rememberme.isChecked()){
+                                   if (!(email_in.getText().toString().equals("") && passcode_in.getText().toString().equals(""))){
 
-                       startActivity(intent);
+                                       SharedPreferences sharedPreferences = getActivity().getSharedPreferences("credential", Context.MODE_PRIVATE);
+                                       SharedPreferences.Editor editor = sharedPreferences.edit();
+                                       editor.putString("email", String.valueOf(email_in.getText()));
+                                       editor.putString("passcode", String.valueOf(passcode_in.getText()));
+                                       editor.apply();
+                                       Toast.makeText(getActivity(), "Your Data Has been Save Successiful!", Toast.LENGTH_SHORT).show();
+                                       startActivity(intent);
+                                   }else{
+                                       Toast.makeText(getActivity(), "Please fill the Data First", Toast.LENGTH_SHORT).show();
+                                   }
+                               }else{
+
+                                   startActivity(intent);
+                               }
+                           }
+                       });
+
                    }else{
                        Toast.makeText(getActivity(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
                    }
