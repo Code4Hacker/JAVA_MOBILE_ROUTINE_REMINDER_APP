@@ -87,7 +87,7 @@ public class Login extends Fragment {
             }
         });
         requestQueue  = Volley.newRequestQueue(getActivity());
-        final String requested_url = "http://192.168.50.138/medical_reminder/grabin.php";
+        final String requested_url = "http://192.168.138.1/medical_reminder/grabin.php";
         final String email = email_in.getText().toString().trim();
         final String passcode = passcode_in.getText().toString().trim();
 
@@ -117,10 +117,10 @@ public class Login extends Fragment {
                                    }else{
                                        Toast.makeText(getActivity(), "Please fill the Data First", Toast.LENGTH_SHORT).show();
                                    }
-                               }else{
+                               }
 
                                    startActivity(intent);
-                               }
+
                            }
                        });
 

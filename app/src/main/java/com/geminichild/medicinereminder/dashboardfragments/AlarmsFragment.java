@@ -62,7 +62,7 @@ public class AlarmsFragment extends Fragment {
     AlarmManager alarmManager;
 
 
-    final String requesting_url = "http://192.168.50.138/medical_reminder/content_post.php";
+    final String requesting_url = "http://192.168.138.1/medical_reminder/content_post.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

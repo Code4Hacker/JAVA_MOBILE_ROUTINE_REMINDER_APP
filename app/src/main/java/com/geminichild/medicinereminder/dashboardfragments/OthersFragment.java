@@ -67,7 +67,7 @@ public class OthersFragment extends Fragment {
             id = "0";
         }
         String lastid = id;
-        String requesting_url = "http://192.168.50.138/medical_Reminder/content_post.php?UserId="+lastid;
+        String requesting_url = "http://192.168.138.1/medical_Reminder/content_post.php?UserId="+lastid;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

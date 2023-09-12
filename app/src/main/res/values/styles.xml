@@ -15,10 +15,10 @@
         <item name="cornerFamily">rounded</item>
     </style>
     <style name="ImageView.Radius" parent="">
-        <item name="cornerSizeTopRight">70dp</item>
-        <item name="cornerSizeTopLeft">70dp</item>
-        <item name="cornerSizeBottomLeft">70dp</item>
-        <item name="cornerSizeBottomRight">70dp</item>
+        <item name="cornerSizeTopRight">60dp</item>
+        <item name="cornerSizeTopLeft">60dp</item>
+        <item name="cornerSizeBottomLeft">60dp</item>
+        <item name="cornerSizeBottomRight">60dp</item>
         <item name="cornerFamily">rounded</item>
     </style>
 </resources>
