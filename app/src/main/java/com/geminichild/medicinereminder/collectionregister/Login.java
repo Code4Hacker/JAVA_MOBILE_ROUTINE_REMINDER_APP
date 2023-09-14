@@ -100,31 +100,29 @@ public class Login extends Fragment {
                    JSONObject jsonObject = new JSONObject(response);
                    String res = jsonObject.getString("success").toString();
                    if(res.equals("1")){
+                       Intent intent = new Intent(getActivity(), Dashboard.class);
+                       intent.putExtra("userMail", String.valueOf(email));
+                       intent.putExtra("passcode", String.valueOf(passcode));
+                       SharedPreferences sharedPreferences = getActivity().getSharedPreferences("credential", Context.MODE_PRIVATE);
+                       SharedPreferences.Editor editor = sharedPreferences.edit();
+                       editor.putString("email", String.valueOf(email_in.getText()));
+                       editor.putString("passcode", String.valueOf(passcode_in.getText()));
+                       editor.apply();
                        rememberme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                            @Override
                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                               Intent intent = new Intent(getActivity(), Dashboard.class);
-                               intent.putExtra("userMail", String.valueOf(email));
-                               intent.putExtra("passcode", String.valueOf(passcode));
                                if(rememberme.isChecked()){
                                    if (!(email_in.getText().toString().equals("") && passcode_in.getText().toString().equals(""))){
 
-                                       SharedPreferences sharedPreferences = getActivity().getSharedPreferences("credential", Context.MODE_PRIVATE);
-                                       SharedPreferences.Editor editor = sharedPreferences.edit();
-                                       editor.putString("email", String.valueOf(email_in.getText()));
-                                       editor.putString("passcode", String.valueOf(passcode_in.getText()));
-                                       editor.apply();
                                        Toast.makeText(getActivity(), "Your Data Has been Save Successiful!", Toast.LENGTH_SHORT).show();
-                                       startActivity(intent);
-                                   }else{
-                                       Toast.makeText(getActivity(), "Please fill the Data First", Toast.LENGTH_SHORT).show();
                                    }
                                }
 
-                                   startActivity(intent);
+
 
                            }
                        });
+                       startActivity(intent);
 
                    }else{
                        Toast.makeText(getActivity(), "Invalid Credentials", Toast.LENGTH_SHORT).show();
