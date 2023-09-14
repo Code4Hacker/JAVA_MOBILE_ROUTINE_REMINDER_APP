@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,8 +28,14 @@ import com.geminichild.medicinereminder.R;
 import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.UpdateProfile;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class ProfileFragment extends Fragment {
     Button edit;
+    TextView username, useremail, usercontact;
+    String passcodes, profileimg, id;
+    Intent intent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,18 +47,33 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        username = (TextView) view.findViewById(R.id.username);
+        useremail = (TextView) view.findViewById(R.id.useremail);
+        usercontact = (TextView) view.findViewById(R.id.usercontact);
+
         getUserdata();
         edit = (Button) view.findViewById(R.id.editprofile);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), UpdateProfile.class);
-                startActivity(intent);
+                getnewside();
             }
         });
     }
 
+    private void getnewside() {
+        intent = new Intent(getActivity(), UpdateProfile.class);
+        intent.putExtra("username", String.valueOf(username.getText()));
+        intent.putExtra("useremail", String.valueOf(useremail.getText()));
+        intent.putExtra("contact", String.valueOf(usercontact.getText()));
+        intent.putExtra("password", passcodes);
+        intent.putExtra("profileimg", profileimg);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+
     private void getUserdata() {
+
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("credential", Context.MODE_PRIVATE);
         final String passcode = sharedPreferences.getString("passcode","");
         final String email = sharedPreferences.getString("email","");
@@ -62,7 +84,36 @@ public class ProfileFragment extends Fragment {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, requestingUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String status = jsonObject.getString("status");
+                        JSONObject jsonObject1 = new JSONObject(status);
+                        String statuscode = jsonObject1.getString("success");
+
+                        switch(statuscode){
+                            case "200":
+                                String userArray = jsonObject.getString("user");
+                                JSONObject jsonObject2 = new JSONObject(userArray);
+                                username.setText(jsonObject2.getString("Fullname"));
+                                useremail.setText(jsonObject2.getString("User_email"));
+                                usercontact.setText(jsonObject2.getString("Phone"));
+                                passcodes = jsonObject2.getString("Passcode");
+                                profileimg = jsonObject2.getString("Profile_img");
+                                id = jsonObject2.getString("Id");
+
+                                break;
+                            case "404":
+                                Toast.makeText(getActivity(), "User Not Found or Connection Error", Toast.LENGTH_SHORT).show();
+
+                                break;
+                            default:
+                                Toast.makeText(getActivity(), "No Command", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
                 }
             }, new Response.ErrorListener() {
                 @Override

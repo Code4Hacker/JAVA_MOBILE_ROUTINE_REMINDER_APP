@@ -42,7 +42,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             startActivity(intent);
             finish();
-            Toast.makeText(this, status_email, Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, status_email, Toast.LENGTH_LONG).show();
         }
 
         Button openregiter = (Button) findViewById(R.id.getregister);
@@ -51,6 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(WelcomeActivity.this, Registration.class));
+                finish();
             }
         });
     }

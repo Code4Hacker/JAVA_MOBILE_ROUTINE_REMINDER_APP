@@ -170,7 +170,7 @@ public class AlarmsFragment extends Fragment {
         SimpleDateFormat formatme = new SimpleDateFormat("dd MMMM yyyy");
         String cal = formatme.format(new Date());
         String finalUserid = userid;
-        Toast.makeText(getActivity(), finalUserid, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), finalUserid, Toast.LENGTH_SHORT).show();
 
         stringRequest = new StringRequest(Request.Method.POST, requesting_url, new Response.Listener<String>() {
             @Override

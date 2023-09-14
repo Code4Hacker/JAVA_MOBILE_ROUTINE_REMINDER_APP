@@ -90,7 +90,7 @@ public class Dashboard extends AppCompatActivity {
 
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        Toast.makeText(Dashboard.this, requestUrls.mainUrl(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(Dashboard.this, requestUrls.mainUrl(), Toast.LENGTH_LONG).show();
         final String request_get_user_url = requestUrls.mainUrl()+"grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {

@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="Paul Michael"
+                android:id="@+id/username"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
@@ -66,6 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:id="@+id/useremail"
                 android:text="paulprogrammer947@gmail.com"
                 android:textColor="#C1C1C1"
                 android:textSize="17sp" />
@@ -73,6 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:id="@+id/usercontact"
                 android:text="Contact: +255628272363"
                 android:textColor="#E18085"
                 android:textSize="14sp" />
