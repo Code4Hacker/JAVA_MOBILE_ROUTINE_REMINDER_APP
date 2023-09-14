@@ -70,6 +70,8 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
+
+            requestQueue.add(stringRequest);
         }else{
             Toast.makeText(getActivity(), "Connection Error!", Toast.LENGTH_SHORT).show();
         }
