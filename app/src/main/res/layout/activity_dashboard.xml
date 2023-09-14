@@ -58,6 +58,8 @@
             android:id="@+id/appCompatImageView"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:src="@drawable/profileimg"
+            android:scaleType="centerCrop"
             android:layout_marginEnd="32dp"
             android:background="#E6EBFF"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -79,12 +81,13 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        app:menu="@menu/firstmenu"
         android:layout_height="wrap_content"
+        android:background="#E9E7EC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dashboardview"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/firstmenu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

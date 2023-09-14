@@ -29,6 +29,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.Dashboard;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.RequestUrls;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -87,7 +88,8 @@ public class Login extends Fragment {
             }
         });
         requestQueue  = Volley.newRequestQueue(getActivity());
-        final String requested_url = "http://192.168.138.1/medical_reminder/grabin.php";
+        RequestUrls requestUrls = new RequestUrls();
+        final String requested_url = requestUrls.mainUrl()+"grabin.php";
         final String email = email_in.getText().toString().trim();
         final String passcode = passcode_in.getText().toString().trim();
 

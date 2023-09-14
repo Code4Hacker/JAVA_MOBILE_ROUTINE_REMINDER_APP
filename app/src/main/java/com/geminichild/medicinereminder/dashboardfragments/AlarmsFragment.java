@@ -36,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.AlarmReceiver;
 import com.geminichild.medicinereminder.Dashboard;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.databinding.FragmentAlarmsBinding;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -60,9 +61,10 @@ public class AlarmsFragment extends Fragment {
     RequestQueue requestQueue;
     Calendar calendar;
     AlarmManager alarmManager;
+    RequestUrls requestUrls = new RequestUrls();
 
 
-    final String requesting_url = "http://192.168.138.1/medical_reminder/content_post.php";
+    final String requesting_url = requestUrls.mainUrl()+"content_post.php";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

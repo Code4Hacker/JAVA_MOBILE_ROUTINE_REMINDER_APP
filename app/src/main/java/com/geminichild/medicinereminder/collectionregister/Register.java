@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.R;
 import com.geminichild.medicinereminder.Registration;
 import com.geminichild.medicinereminder.RegistrationAdapter;
+import com.geminichild.medicinereminder.RequestUrls;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,8 +35,9 @@ public class Register extends Fragment {
     Button new_btn;
     EditText full_name, email, phone, passcode, confirm_pwd;
     RequestQueue requestQueue;
+    RequestUrls requestUrls = new RequestUrls();
 
-    final String request_register = "http://192.168.138.1/medical_reminder/grabup.php";
+    final String request_register = requestUrls.mainUrl()+"grabup.php";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

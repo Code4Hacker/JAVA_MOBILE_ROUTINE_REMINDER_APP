@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.TaskAdapter;
 import com.geminichild.medicinereminder.TaskModel;
 import com.geminichild.medicinereminder.VolleySingleton;
@@ -67,7 +68,8 @@ public class OthersFragment extends Fragment {
             id = "0";
         }
         String lastid = id;
-        String requesting_url = "http://192.168.138.1/medical_Reminder/content_post.php?UserId="+lastid;
+        RequestUrls requestUrls = new RequestUrls();
+        String requesting_url = requestUrls.mainUrl()+"content_post.php?UserId="+lastid;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

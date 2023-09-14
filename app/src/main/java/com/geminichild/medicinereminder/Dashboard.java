@@ -25,7 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Dashboard extends AppCompatActivity {
-    ViewPager2 viewPager2;
+    public ViewPager2 viewPager2;
     BottomNavigationView bottomNavigationView;
     TextView username, emaiDashboard;
 
@@ -86,9 +86,12 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void getFullUserInfo(){
+        RequestUrls requestUrls = new RequestUrls();
+
         final String mailget = email_retrived.toString().trim();
         final String codepass = pwd.toString().trim();
-        final String request_get_user_url = "http://192.168.138.1/medical_reminder/grabin.php?mail_post="+mailget+"&passcode="+codepass;
+        Toast.makeText(Dashboard.this, requestUrls.mainUrl(), Toast.LENGTH_LONG).show();
+        final String request_get_user_url = requestUrls.mainUrl()+"grabin.php?mail_post="+mailget+"&passcode="+codepass;
         requestQueue = Volley.newRequestQueue(this);
         stringRequest = new StringRequest(Request.Method.GET, request_get_user_url, new Response.Listener<String>() {
             @Override
@@ -102,7 +105,6 @@ public class Dashboard extends AppCompatActivity {
 
                        String usercontainer = jsonObject.getString("user");
                        JSONObject userdata = new JSONObject(usercontainer);
-//                       Toast.makeText(Dashboard.this, userdata.getString("Fullname").toString(), Toast.LENGTH_SHORT).show();
                        username.setText("Hi, " + userdata.getString("Fullname").toString());
                        emaiDashboard.setText(userdata.getString("User_email").toString());
                        SharedPreferences sharedPreferences = getSharedPreferences("userId", MODE_PRIVATE);

@@ -8,6 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/setAlarm"
         android:layout_width="123dp"
         android:layout_height="58dp"
         android:background="@drawable/button_50_50dp"
@@ -17,11 +18,23 @@
         android:textColor="@color/white"
         android:textFontWeight="100"
         android:textSize="20sp"
-        android:id="@+id/setAlarm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471" />
+        app:layout_constraintVertical_bias="0.41000003" />
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_bottom_right_view"
+        android:unfocusedMonthDateColor="#FFFFFF"
+        android:weekNumberColor="#FFFEFE"
+        android:weekSeparatorLineColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setAlarm"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
