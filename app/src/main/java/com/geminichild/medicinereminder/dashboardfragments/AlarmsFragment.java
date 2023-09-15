@@ -36,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.AlarmReceiver;
 import com.geminichild.medicinereminder.Dashboard;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.Registration;
 import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.databinding.FragmentAlarmsBinding;
 import com.google.android.material.timepicker.MaterialTimePicker;
@@ -150,6 +151,7 @@ public class AlarmsFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
                         int requestCode = (int) System.currentTimeMillis();
                         postAndGetTasks(requestCode, intent, calendar);
+                        dialogTask.cancel();
                     }
                 });
 

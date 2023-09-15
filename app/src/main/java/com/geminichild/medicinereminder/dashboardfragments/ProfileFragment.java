@@ -10,10 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.Dashboard;
 import com.geminichild.medicinereminder.R;
+import com.geminichild.medicinereminder.Registration;
 import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.UpdateProfile;
 
@@ -33,8 +36,11 @@ import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
     Button edit;
-    TextView username, useremail, usercontact;
+
+    RequestUrls requestUrls = new RequestUrls();
+    TextView username, useremail, usercontact, taskcount;
     String passcodes, profileimg, id;
+    LinearLayout logout;
     Intent intent;
 
     @Override
@@ -47,12 +53,23 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        username = (TextView) view.findViewById(R.id.username);
-        useremail = (TextView) view.findViewById(R.id.useremail);
-        usercontact = (TextView) view.findViewById(R.id.usercontact);
+        username =  view.findViewById(R.id.username);
+        useremail =  view.findViewById(R.id.useremail);
+        usercontact =  view.findViewById(R.id.usercontact);
+        taskcount = view.findViewById(R.id.tasksnumber);
+        logout = view.findViewById(R.id.logout);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Registration.class));
+                getActivity().finish();
+            }
+        });
 
         getUserdata();
-        edit = (Button) view.findViewById(R.id.editprofile);
+        taskGet();
+        edit = view.findViewById(R.id.editprofile);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,7 +96,6 @@ public class ProfileFragment extends Fragment {
         final String email = sharedPreferences.getString("email","");
         if(!(passcode.equals("") && email.equals(""))) {
             RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
-            RequestUrls requestUrls = new RequestUrls();
             String requestingUrl = requestUrls.mainUrl() + "grabin.php?mail_post="+email+"&passcode="+passcode;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, requestingUrl, new Response.Listener<String>() {
                 @Override
@@ -127,6 +143,34 @@ public class ProfileFragment extends Fragment {
             Toast.makeText(getActivity(), "Connection Error!", Toast.LENGTH_SHORT).show();
         }
     }
+//    My Tasks
+    private void taskGet(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        String iduser = sharedPreferences.getString("user", "");
+        if (!iduser.equals("")){
+            String requescodes = requestUrls.mainUrl()+"update_task.php?user="+iduser;
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, requescodes, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String task = jsonObject.getString("Tasks").toString();
+                        if (task.length() > -1){
+                            taskcount.setText("Tasks "+task);
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("error", error.toString());
+                }
+            });
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(stringRequest);
+        }
 
-
+    }
 }

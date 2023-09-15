@@ -43,6 +43,7 @@ public class Dashboard extends AppCompatActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         DashBoardAdapter dashBoardAdapter = new DashBoardAdapter(this);
         viewPager2.setAdapter(dashBoardAdapter);
+//        getRecreate();
         if(savedInstanceState == null){
             viewPager2.setCurrentItem(1);
             bottomNavigationView.getMenu().getItem(1).setChecked(true);
@@ -83,6 +84,10 @@ public class Dashboard extends AppCompatActivity {
 //                bottomNavigationView;
             }
         });
+    }
+
+    public void getRecreate() {
+        recreate();
     }
 
     public void getFullUserInfo(){

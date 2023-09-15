@@ -92,7 +92,7 @@ public class UpdateProfile extends AppCompatActivity {
                             editor.putString("email", String.valueOf(updateemail.getText()));
                             editor.putString("passcode", String.valueOf(updatepassword.getText()));
                             editor.apply();
-                            finish();
+                            recreate();
 
                             break;
                         case "500":
