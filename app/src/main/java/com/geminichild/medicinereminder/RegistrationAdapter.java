@@ -18,11 +18,11 @@ public class RegistrationAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
        switch (position){
            case 0:
-               return new Register();
-           case 1:
                return new Login();
-           default:
+           case 1:
                return new Register();
+           default:
+               return new Login();
        }
     }
 

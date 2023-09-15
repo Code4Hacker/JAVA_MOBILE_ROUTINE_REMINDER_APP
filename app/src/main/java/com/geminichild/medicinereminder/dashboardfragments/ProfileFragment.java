@@ -83,6 +83,7 @@ public class ProfileFragment extends Fragment {
         intent.putExtra("username", String.valueOf(username.getText()));
         intent.putExtra("useremail", String.valueOf(useremail.getText()));
         intent.putExtra("contact", String.valueOf(usercontact.getText()));
+        intent.putExtra("taskcount", taskcount.getText().toString());
         intent.putExtra("password", passcodes);
         intent.putExtra("profileimg", profileimg);
         intent.putExtra("id", id);

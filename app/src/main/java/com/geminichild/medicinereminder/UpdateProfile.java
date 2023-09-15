@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,6 +32,8 @@ import java.util.Map;
 public class UpdateProfile extends AppCompatActivity {
     Button returnDashboard;
     EditText updatename, updatepassword, updatecontact, updateemail, oldpassword;
+    TextView tasks;
+    LinearLayout logout;
     String passcodesintent, id;
 
     @Override
@@ -42,12 +46,24 @@ public class UpdateProfile extends AppCompatActivity {
         updatecontact = (EditText) findViewById(R.id.upd_contact);
         updatepassword = (EditText) findViewById(R.id.upd_pwd);
         oldpassword = (EditText) findViewById(R.id.old_pwd);
+        tasks = findViewById(R.id.tasks);
+        logout = findViewById(R.id.logout);
+
 
         updatename.setText(profileInfo.getString("username"));
         updateemail.setText(profileInfo.getString("useremail"));
         updatecontact.setText(profileInfo.getString("contact"));
         passcodesintent = profileInfo.getString("password");
         id = profileInfo.getString("id");
+        tasks.setText(profileInfo.getString("taskcount"));
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UpdateProfile.this, Registration.class));
+                finish();
+            }
+        });
 
 
 
