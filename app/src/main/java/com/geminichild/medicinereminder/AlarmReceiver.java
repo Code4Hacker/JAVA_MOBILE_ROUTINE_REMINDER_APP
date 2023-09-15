@@ -17,7 +17,7 @@ import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent alarmNotification = new Intent(context, Dashboard.class);
+        Intent alarmNotification = new Intent(context, NotiificationContainer.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, alarmNotification, PendingIntent.FLAG_IMMUTABLE);
 

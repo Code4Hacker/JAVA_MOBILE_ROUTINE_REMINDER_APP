@@ -89,8 +89,9 @@ public class OthersFragment extends Fragment {
                             String notifyTime = jsonObject1.getString("NotifyTime");
                             String taskid = jsonObject1.getString("ActivityId");
                             String taskComplete = jsonObject1.getString("taskComplete");
+                            String requestcode = jsonObject1.getString("RequestCode");
 
-                           TaskModel taskModel = new TaskModel(title, description, notifyTime, taskid, taskComplete);
+                           TaskModel taskModel = new TaskModel(title, description, notifyTime, taskid, taskComplete, requestcode);
                            taskList.add(taskModel);
 
                         }

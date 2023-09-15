@@ -1,8 +1,11 @@
 package com.geminichild.medicinereminder;
 
+import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,11 +60,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.tasktitle.setText(taskModel.getActivityTitle().toString());
         holder.description.setText(taskModel.getActivityDescription().toString());
         holder.taskid.setText(taskModel.getActivityId().toString());
+        String requestcodes = taskModel.getRequestCode().toString();
+        holder.requestcodes = requestcodes;
         if(taskModel.getTaskComplete().toString().equals("true")){
             holder.completed.setChecked(true);
 
+
         }else {
             holder.completed.setChecked(false);
+
+
         }
         holder.notifytime.setText(taskModel.getNotifyTime().toString());
         holder.completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -70,8 +78,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                 RequestQueue requestQueue = Volley.newRequestQueue(context);
                 final String taskCompleted = String.valueOf(b);
                 final String userTask = holder.taskid.getText().toString();
+                RequestUrls requestUrls = new RequestUrls();
 
-                final String request_code_url ="http://192.168.138.1/medical_reminder/update_task.php";
+                final String request_code_url = requestUrls.mainUrl()+"update_task.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, request_code_url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -79,7 +88,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             JSONObject jsonObject = new JSONObject(response);
                             String responded_cast = jsonObject.getString("success").toString();
                             if(responded_cast.equals("200")) {
-                                Toast.makeText(context, "Task Updated Successful!", Toast.LENGTH_SHORT).show();
+                                if(taskModel.getTaskComplete().toString().equals("true")){
+                                    holder.alarmManager.cancel(holder.pendingIntent);
+                                    Toast.makeText(context, holder.requestcodes+" Cancelled!", Toast.LENGTH_SHORT).show();
+
+                                }else {
+                                    Toast.makeText(context, holder.requestcodes+" Inserted!", Toast.LENGTH_SHORT).show();
+                                }
                             }else{
                                     Toast.makeText(context, "404", Toast.LENGTH_SHORT).show();
 
@@ -129,15 +144,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         TextView tasktitle, description, notifytime, taskid;
+        AlarmManager alarmManager;
+        String requestcodes;
+        Intent intent;
+        PendingIntent pendingIntent;
         CheckBox completed;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
+            String requestcode = "0";
+            if(requestcodes != null){
+                requestcode = requestcodes;
+            }
             tasktitle = itemView.findViewById(R.id.task_title);
             description = itemView.findViewById(R.id.task_description);
             completed = itemView.findViewById(R.id.task_complete);
             notifytime = itemView.findViewById(R.id.time_remindered);
             taskid = itemView.findViewById(R.id.taskId);
+            alarmManager = (AlarmManager) itemView.getContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(itemView.getContext(), NotiificationContainer.class);
+            pendingIntent = PendingIntent.getBroadcast(itemView.getContext(), Integer.parseInt(requestcode), intent, PendingIntent.FLAG_IMMUTABLE);
+
+
         }
     }
 }

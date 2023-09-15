@@ -35,6 +35,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.AlarmReceiver;
 import com.geminichild.medicinereminder.Dashboard;
+import com.geminichild.medicinereminder.NotiificationContainer;
 import com.geminichild.medicinereminder.R;
 import com.geminichild.medicinereminder.Registration;
 import com.geminichild.medicinereminder.RequestUrls;
@@ -165,6 +166,9 @@ public class AlarmsFragment extends Fragment {
         final String notified_at =  preview.getText().toString().trim();
         String userid = sharedPreferences.getString("user","");
 
+
+
+
         if(userid.equals("")){
             userid = "0";
         }
@@ -182,6 +186,9 @@ public class AlarmsFragment extends Fragment {
                     String results = jsonObject.getString("success").toString();
 
                     if(results.equals("200")){
+//                        intent1 = new Intent(getActivity(), NotiificationContainer.class);
+                        intent.putExtra("headline", headline.getText().toString());
+                        intent.putExtra("description", description.getText().toString());
                         headline.setText("");
                         description.setText("");
                         preview.setText("");

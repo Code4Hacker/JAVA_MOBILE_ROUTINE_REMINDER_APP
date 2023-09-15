@@ -1,14 +1,17 @@
 package com.geminichild.medicinereminder;
 
 public class TaskModel {
-    private String ActivityTitle, ActivityDescription, NotifyTime, ActivityId, taskComplete;
+    private String ActivityTitle, ActivityDescription, NotifyTime, ActivityId, taskComplete,RequestCode;
 
-    public TaskModel(String activityTitle, String activityDescription, String notifyTime, String activityId, String taskComplete) {
+
+
+    public TaskModel(String activityTitle, String activityDescription, String notifyTime, String activityId, String taskComplete, String requestCode) {
         ActivityTitle = activityTitle;
         ActivityDescription = activityDescription;
         NotifyTime = notifyTime;
         ActivityId = activityId;
         this.taskComplete = taskComplete;
+        RequestCode = requestCode;
     }
 
     public String getActivityTitle() {
@@ -50,4 +53,13 @@ public class TaskModel {
     public void setTaskComplete(String taskComplete) {
         this.taskComplete = taskComplete;
     }
+
+    public String getRequestCode() {
+        return RequestCode;
+    }
+
+    public void setRequestCode(String requestCode) {
+        RequestCode = requestCode;
+    }
 }
+

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.MedicineReminder"
         tools:targetApi="31">
         <activity
+            android:name=".NotiificationContainer"
+            android:exported="false" />
+        <activity
             android:name=".UpdateProfile"
             android:exported="false" />
         <activity
