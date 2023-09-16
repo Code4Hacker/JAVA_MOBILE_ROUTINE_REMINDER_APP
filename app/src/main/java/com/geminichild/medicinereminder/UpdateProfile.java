@@ -162,7 +162,11 @@ public class UpdateProfile extends AppCompatActivity {
                             editor.putString("email", String.valueOf(updateemail.getText()));
                             editor.putString("passcode", String.valueOf(updatepassword.getText()));
                             editor.apply();
-                            recreate();
+                            finish();
+                            Intent dashboardIntent = new Intent(UpdateProfile.this, Dashboard.class);
+                            dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(dashboardIntent);
+
 
                             break;
                         case "500":
