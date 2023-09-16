@@ -2,15 +2,25 @@ package com.geminichild.medicinereminder;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 //import android.content.Intent;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,15 +36,19 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UpdateProfile extends AppCompatActivity {
     Button returnDashboard;
     EditText updatename, updatepassword, updatecontact, updateemail, oldpassword;
-    TextView tasks;
+    TextView tasks,editicon;
     LinearLayout logout;
-    String passcodesintent, id;
+    String passcodesintent, id, path,encodeimg;
+    ImageView imageView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +61,9 @@ public class UpdateProfile extends AppCompatActivity {
         updatepassword = (EditText) findViewById(R.id.upd_pwd);
         oldpassword = (EditText) findViewById(R.id.old_pwd);
         tasks = findViewById(R.id.tasks);
+        editicon = findViewById(R.id.edit_profile);
         logout = findViewById(R.id.logout);
+        imageView = findViewById(R.id.shapeableImageView);
 
 
         updatename.setText(profileInfo.getString("username"));
@@ -62,6 +78,19 @@ public class UpdateProfile extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(UpdateProfile.this, Registration.class));
                 finish();
+            }
+        });
+        editicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intent,2);
+                }else{
+                    ActivityCompat.requestPermissions(UpdateProfile.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
             }
         });
 
@@ -87,6 +116,28 @@ public class UpdateProfile extends AppCompatActivity {
                 }
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK){
+            Uri uri = data.getData();
+            Context context = UpdateProfile.this;
+
+            path = RealPathUtil.getRealPath(context, uri);
+            Bitmap bitmap = BitmapFactory.decodeFile(path);
+            imageView.setImageBitmap(bitmap);
+            Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show();
+            encodetobitmap(bitmap);
+
+        }
+    }
+    private void encodetobitmap(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] byteofimage = byteArrayOutputStream.toByteArray();
+        encodeimg = android.util.Base64.encodeToString(byteofimage, Base64.DEFAULT);
+
     }
 
     private void updateUser() {
@@ -138,6 +189,7 @@ public class UpdateProfile extends AppCompatActivity {
                 params.put("passcode", String.valueOf(updatepassword.getText()).trim());
                 params.put("Phone", String.valueOf(updatecontact.getText()).trim());
                 params.put("id", id);
+                params.put("img", encodeimg);
                 return params;
             }
         };

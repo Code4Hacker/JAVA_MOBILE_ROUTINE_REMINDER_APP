@@ -42,6 +42,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     private int lastpos = -1;
     private Context context;
     private List<TaskModel> taskModelList;
+    String requestcode;
+    AlarmManager alarmManager;
+    PendingIntent pendingIntent;
+
+
+
 
     public TaskAdapter(Context context, List<TaskModel> taskModelList) {
         this.context = context;
@@ -72,6 +78,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         }
         holder.notifytime.setText(taskModel.getNotifyTime().toString());
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, NotiificationContainer.class);
         holder.completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -88,9 +96,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                             JSONObject jsonObject = new JSONObject(response);
                             String responded_cast = jsonObject.getString("success").toString();
                             if(responded_cast.equals("200")) {
-                                if(taskModel.getTaskComplete().toString().equals("true")){
-                                    holder.alarmManager.cancel(holder.pendingIntent);
-                                    Toast.makeText(context, holder.requestcodes+" Cancelled!", Toast.LENGTH_SHORT).show();
+                                if(holder.completed.isChecked()){
+                                    pendingIntent = PendingIntent.getBroadcast(context, Integer.parseInt(holder.requestcodes), intent, PendingIntent.FLAG_IMMUTABLE);
+                                    alarmManager.cancel(pendingIntent);
+                                    Toast.makeText(context, Integer.parseInt(holder.requestcodes)+" Cancelled!", Toast.LENGTH_SHORT).show();
 
                                 }else {
                                     Toast.makeText(context, holder.requestcodes+" Inserted!", Toast.LENGTH_SHORT).show();
@@ -144,26 +153,27 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         TextView tasktitle, description, notifytime, taskid;
-        AlarmManager alarmManager;
         String requestcodes;
-        Intent intent;
-        PendingIntent pendingIntent;
         CheckBox completed;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
-            String requestcode = "0";
-            if(requestcodes != null){
-                requestcode = requestcodes;
-            }
+
+//            if(requestcodes != null){
+//                requestcode = requestcodes;
+//
+//            }
             tasktitle = itemView.findViewById(R.id.task_title);
             description = itemView.findViewById(R.id.task_description);
             completed = itemView.findViewById(R.id.task_complete);
             notifytime = itemView.findViewById(R.id.time_remindered);
             taskid = itemView.findViewById(R.id.taskId);
-            alarmManager = (AlarmManager) itemView.getContext().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(itemView.getContext(), NotiificationContainer.class);
-            pendingIntent = PendingIntent.getBroadcast(itemView.getContext(), Integer.parseInt(requestcode), intent, PendingIntent.FLAG_IMMUTABLE);
+            taskid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context.getApplicationContext(),requestcode, Toast.LENGTH_SHORT).show();
+                }
+            });
 
 
         }

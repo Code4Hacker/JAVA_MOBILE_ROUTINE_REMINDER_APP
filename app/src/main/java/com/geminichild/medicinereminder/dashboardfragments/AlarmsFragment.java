@@ -150,6 +150,14 @@ public class AlarmsFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
+//                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("requestcode", Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        if(sharedPreferences.getInt("code",0) == true){
+//
+//                        }else{
+//
+//                        }
+
                         int requestCode = (int) System.currentTimeMillis();
                         postAndGetTasks(requestCode, intent, calendar);
                         dialogTask.cancel();
