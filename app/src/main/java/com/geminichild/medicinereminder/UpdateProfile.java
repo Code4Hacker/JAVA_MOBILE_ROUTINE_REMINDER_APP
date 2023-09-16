@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +46,7 @@ public class UpdateProfile extends AppCompatActivity {
     EditText updatename, updatepassword, updatecontact, updateemail, oldpassword;
     TextView tasks,editicon;
     LinearLayout logout;
-    String passcodesintent, id, path,encodeimg;
+    String passcodesintent, id, path,encodeimg, urlimg;
     ImageView imageView;
 
 
@@ -71,7 +72,9 @@ public class UpdateProfile extends AppCompatActivity {
         updatecontact.setText(profileInfo.getString("contact"));
         passcodesintent = profileInfo.getString("password");
         id = profileInfo.getString("id");
+        urlimg = profileInfo.getString("profileimg");
         tasks.setText(profileInfo.getString("taskcount"));
+        Picasso.get().load(urlimg).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(imageView);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

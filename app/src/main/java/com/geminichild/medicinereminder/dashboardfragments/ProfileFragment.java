@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import com.geminichild.medicinereminder.R;
 import com.geminichild.medicinereminder.Registration;
 import com.geminichild.medicinereminder.RequestUrls;
 import com.geminichild.medicinereminder.UpdateProfile;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +41,8 @@ public class ProfileFragment extends Fragment {
 
     RequestUrls requestUrls = new RequestUrls();
     TextView username, useremail, usercontact, taskcount;
-    String passcodes, profileimg, id;
+    String passcodes, url, id;
+    ImageView profileimg;
     LinearLayout logout;
     Intent intent;
 
@@ -58,6 +61,7 @@ public class ProfileFragment extends Fragment {
         usercontact =  view.findViewById(R.id.usercontact);
         taskcount = view.findViewById(R.id.tasksnumber);
         logout = view.findViewById(R.id.logout);
+        profileimg = view.findViewById(R.id.shapeableImageView);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +89,7 @@ public class ProfileFragment extends Fragment {
         intent.putExtra("contact", String.valueOf(usercontact.getText()));
         intent.putExtra("taskcount", taskcount.getText().toString());
         intent.putExtra("password", passcodes);
-        intent.putExtra("profileimg", profileimg);
+        intent.putExtra("profileimg", url);
         intent.putExtra("id", id);
         startActivity(intent);
     }
@@ -115,7 +119,8 @@ public class ProfileFragment extends Fragment {
                                 useremail.setText(jsonObject2.getString("User_email"));
                                 usercontact.setText(jsonObject2.getString("Phone"));
                                 passcodes = jsonObject2.getString("Passcode");
-                                profileimg = jsonObject2.getString("Profile_img");
+                                url = requestUrls.mainUrl() + "IMAGES/" + jsonObject2.getString("Profile_img");
+                                Picasso.get().load(url).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(profileimg);
                                 id = jsonObject2.getString("Id");
 
                                 break;

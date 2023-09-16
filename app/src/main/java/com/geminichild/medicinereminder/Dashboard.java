@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +30,7 @@ public class Dashboard extends AppCompatActivity {
     public ViewPager2 viewPager2;
     BottomNavigationView bottomNavigationView;
     TextView username, emaiDashboard;
+    ImageView profileimg;
 
     String email_retrived;
     String pwd;
@@ -40,6 +43,7 @@ public class Dashboard extends AppCompatActivity {
         username = (TextView) findViewById(R.id.profilename);
         emaiDashboard = (TextView) findViewById(R.id.emaiDashboard);
         viewPager2 = (ViewPager2) findViewById(R.id.dashboardview);
+        profileimg = findViewById(R.id.appCompatImageView);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         DashBoardAdapter dashBoardAdapter = new DashBoardAdapter(this);
         viewPager2.setAdapter(dashBoardAdapter);
@@ -112,7 +116,13 @@ public class Dashboard extends AppCompatActivity {
                        JSONObject userdata = new JSONObject(usercontainer);
                        username.setText("Hi, " + userdata.getString("Fullname").toString());
                        emaiDashboard.setText(userdata.getString("User_email").toString());
+                       RequestUrls requestUrls1 = new RequestUrls();
+
+                       String url = requestUrls1.mainUrl() + "IMAGES/" + userdata.getString("Profile_img");
+                       Picasso.get().load(url).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(profileimg);
+
                        SharedPreferences sharedPreferences = getSharedPreferences("userId", MODE_PRIVATE);
+
                        SharedPreferences.Editor editor = sharedPreferences.edit();
                        editor.putString("user", userdata.getString("Id"));
                        editor.apply();
