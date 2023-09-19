@@ -67,7 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.description.setText(taskModel.getActivityDescription().toString());
         holder.taskid.setText(taskModel.getActivityId().toString());
         String requestcodes = taskModel.getRequestCode().toString();
-        holder.nmber.setText(position);
+        holder.nmber.setText(String.valueOf(position));
         holder.requestcodes = requestcodes;
         if(taskModel.getTaskComplete().toString().equals("true")){
             holder.completed.setChecked(true);
