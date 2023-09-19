@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.squareup.picasso.Picasso;
@@ -88,6 +87,7 @@ public class Dashboard extends AppCompatActivity {
 //                bottomNavigationView;
             }
         });
+
     }
 
     public void getRecreate() {

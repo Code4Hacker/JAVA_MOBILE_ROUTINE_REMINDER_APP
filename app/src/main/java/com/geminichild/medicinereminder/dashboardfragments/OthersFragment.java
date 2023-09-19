@@ -9,13 +9,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +39,7 @@ public class OthersFragment extends Fragment {
     private RecyclerView taskrecycle;
     private RequestQueue requestQueue;
     private List<TaskModel> taskList;
+    public SwipeRefreshLayout refreshingapp;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,16 +51,34 @@ public class OthersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         taskrecycle = (RecyclerView) view.findViewById(R.id.task_recycle);
+        refreshingapp = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         taskrecycle.setHasFixedSize(true);
         taskrecycle.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         requestQueue = VolleySingleton.getmInstance(getActivity()).getRequestQueue();
         taskList = new ArrayList<>();
         fetchTasks();
+
+        refreshingapp.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                TaskModel taskModel = new TaskModel("", "", "", "", "", "");
+                taskList.add(taskModel);
+                TaskAdapter taskAdapter = new TaskAdapter(getActivity(),taskList);
+                taskrecycle.setAdapter(taskAdapter);
+                fetchTasks();
+                refreshingapp.setRefreshing(false);
+            }
+        });
     }
 
 
     public void fetchTasks() {
+//        TaskModel taskModel = new TaskModel("", "", "", "", "", "");
+        taskList.clear();
+        TaskAdapter taskAdapter = new TaskAdapter(getActivity(),taskList);
+        taskrecycle.setAdapter(taskAdapter);
+
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("userId", Context.MODE_PRIVATE);
         String id = sharedPreferences.getString("user","");
 

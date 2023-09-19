@@ -48,6 +48,6 @@ public class Registration extends AppCompatActivity {
     }
 
     public void navigatetoLogin(){
-        viewPager2.setCurrentItem(2);
+        viewPager2.setCurrentItem(0);
     }
 }

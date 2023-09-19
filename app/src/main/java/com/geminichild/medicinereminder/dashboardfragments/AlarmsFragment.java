@@ -205,9 +205,10 @@ public class AlarmsFragment extends Fragment {
                         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
                         Toast.makeText(getActivity(), "Alarmed", Toast.LENGTH_SHORT).show();
 //                        getActivity().finish();
-                        Intent dashboardIntent = new Intent(getActivity(), Dashboard.class);
-                        dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(dashboardIntent);
+//                        Intent dashboardIntent = new Intent(getActivity(), Dashboard.class);
+//                        dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(dashboardIntent);
+
 
                     }else{
                         Toast.makeText(getActivity(), "not sent", Toast.LENGTH_SHORT).show();
