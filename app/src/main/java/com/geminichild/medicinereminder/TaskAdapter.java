@@ -67,6 +67,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.description.setText(taskModel.getActivityDescription().toString());
         holder.taskid.setText(taskModel.getActivityId().toString());
         String requestcodes = taskModel.getRequestCode().toString();
+        holder.nmber.setText(position);
         holder.requestcodes = requestcodes;
         if(taskModel.getTaskComplete().toString().equals("true")){
             holder.completed.setChecked(true);
@@ -152,7 +153,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     }
 
     public class TaskHolder extends RecyclerView.ViewHolder {
-        TextView tasktitle, description, notifytime, taskid;
+        TextView tasktitle, description, notifytime, taskid, nmber;
         String requestcodes;
         CheckBox completed;
 
@@ -168,6 +169,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             completed = itemView.findViewById(R.id.task_complete);
             notifytime = itemView.findViewById(R.id.time_remindered);
             taskid = itemView.findViewById(R.id.taskId);
+            nmber = itemView.findViewById(R.id.numbertask);
             taskid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginTop="8dp"
@@ -17,14 +18,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="20dp"
-            android:layout_marginLeft="-10dp"
-            android:layout_height="match_parent"
-            android:background="@color/primary_color" />
-
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:layout_width="100dp"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/paul_cucon"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            app:shapeAppearanceOverlay="@style/ImageView.RadiusBoth"-->
+<!--            android:layout_height="match_parent"/>-->
+<!--        <View-->
+<!--            android:id="@+id/view2"-->
+<!--            android:layout_width="20dp"-->
+<!--            android:layout_marginLeft="-10dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="@color/primary_color" />-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginStart="10dp"
+            android:text="0"
+            android:id="@+id/numbertask"
+            android:textColor="#00B3A2"
+            android:textFontWeight="900"
+            android:textSize="70sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:fontFamily="sans-serif-condensed"
+                android:fontFamily="@font/alata"
                 android:text="Task Title"
                 android:textColor="@color/primary_color"
                 android:textFontWeight="900"

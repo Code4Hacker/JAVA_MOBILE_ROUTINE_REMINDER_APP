@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -156,6 +157,7 @@ public class UpdateProfile extends AppCompatActivity {
 
                     switch (status){
                         case "200":
+
                             Toast.makeText(UpdateProfile.this, "Update Success!", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getSharedPreferences("credential", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -183,6 +185,7 @@ public class UpdateProfile extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Error Volley", error.toString());
                 Toast.makeText(UpdateProfile.this, error.toString(), Toast.LENGTH_SHORT).show();
             }
         }){
