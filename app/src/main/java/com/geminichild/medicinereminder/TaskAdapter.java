@@ -15,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.geminichild.medicinereminder.dashboardfragments.AlarmsFragment;
@@ -45,6 +47,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     String requestcode;
     AlarmManager alarmManager;
     PendingIntent pendingIntent;
+    RequestUrls requestUrls = new RequestUrls();
+
 
 
 
@@ -67,7 +71,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.description.setText(taskModel.getActivityDescription().toString());
         holder.taskid.setText(taskModel.getActivityId().toString());
         String requestcodes = taskModel.getRequestCode().toString();
-        holder.nmber.setText(String.valueOf(position));
+        if(position < 9){
+            holder.nmber.setText("0"+String.valueOf(position+1));
+        }else{
+            holder.nmber.setText(String.valueOf(position+1));
+        }
         holder.requestcodes = requestcodes;
         if(taskModel.getTaskComplete().toString().equals("true")){
             holder.completed.setChecked(true);
@@ -81,13 +89,56 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.notifytime.setText(taskModel.getNotifyTime().toString());
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotiificationContainer.class);
+
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = requestUrls.mainUrl()+"delete.php?id="+holder.taskid.getText();
+
+                RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            String status = jsonObject.getString("status").toString();
+                            switch(status){
+                                case "200":
+                                    Log.i("STATUSS", status);
+                                    Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case "500":
+                                    Log.i("STATE", status);
+                                    break;
+                                default:
+                                    Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            }
+
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("Volley Error", error.toString());
+                    }
+                });
+                requestQueue.add(stringRequest);
+            }
+        });
+
         holder.completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 RequestQueue requestQueue = Volley.newRequestQueue(context);
                 final String taskCompleted = String.valueOf(b);
                 final String userTask = holder.taskid.getText().toString();
-                RequestUrls requestUrls = new RequestUrls();
 
                 final String request_code_url = requestUrls.mainUrl()+"update_task.php";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, request_code_url, new Response.Listener<String>() {
@@ -154,6 +205,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public class TaskHolder extends RecyclerView.ViewHolder {
         TextView tasktitle, description, notifytime, taskid, nmber;
+        ImageButton delete;
         String requestcodes;
         CheckBox completed;
 
@@ -170,12 +222,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             notifytime = itemView.findViewById(R.id.time_remindered);
             taskid = itemView.findViewById(R.id.taskId);
             nmber = itemView.findViewById(R.id.numbertask);
-            taskid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(context.getApplicationContext(),requestcode, Toast.LENGTH_SHORT).show();
-                }
-            });
+            delete = itemView.findViewById(R.id.delete);
+
 
 
         }
