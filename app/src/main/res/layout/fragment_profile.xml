@@ -7,167 +7,181 @@
     android:background="@color/primary_color"
     tools:context=".dashboardfragments.ProfileFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topshow"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="50dp"
-            android:src="@drawable/profileimg"
-            android:scaleType="centerCrop"
-            android:background="@drawable/border_10dp"
-            android:elevation="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/ImageView.Radius" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/paul_cucon"
+        android:id="@+id/banner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topshow"
-        app:layout_constraintVertical_bias="1.0">
-
-        <LinearLayout
-            android:id="@+id/linearLayout5"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/gradient_blue"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topshow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Paul Michael"
-                android:id="@+id/username"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/profileimg"
+                android:scaleType="centerCrop"
+                android:background="@drawable/border_10dp"
+                android:elevation="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/ImageView.Radius" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/useremail"
-                android:text="paulprogrammer947@gmail.com"
-                android:textColor="#C1C1C1"
-                android:textSize="17sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/usercontact"
-                android:text="Contact: +255628272363"
-                android:textColor="#E18085"
-                android:textSize="14sp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout4"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout6"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/border_10_10_white"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="10dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-            <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="25dp"
-                android:background="@drawable/card_active"
-                android:orientation="vertical"
-                android:id="@+id/logout"
-                android:padding="10dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_power_settings_new_24"
-
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Log Out"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="120dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="25dp"
-                android:layout_marginEnd="20dp"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/baseline_add_task_24"
-
-                    />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:id="@+id/tasksnumber"
-                    android:text="Tasks 34" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@drawable/border_bottom_right_view"
-            android:padding="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+            app:layout_constraintTop_toBottomOf="@+id/topshow"
             app:layout_constraintVertical_bias="1.0">
 
-            <Button
-                android:id="@+id/editprofile"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:text="Edit Profile" />
-        </LinearLayout>
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Paul Michael"
+                    android:id="@+id/username"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/useremail"
+                    android:text="paulprogrammer947@gmail.com"
+                    android:textColor="#C1C1C1"
+                    android:textSize="17sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/usercontact"
+                    android:text="Contact: +255628272363"
+                    android:textColor="#E18085"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/border_10_10_white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="25dp"
+                    android:background="@drawable/card_active"
+                    android:orientation="vertical"
+                    android:id="@+id/logout"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_power_settings_new_24"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Log Out"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_add_task_24"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/tasksnumber"
+                        android:text="Tasks 34" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/border_bottom_right_view"
+                android:padding="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+                app:layout_constraintVertical_bias="1.0">
+
+                <Button
+                    android:id="@+id/editprofile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="20dp"
+                    android:text="Edit Profile" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

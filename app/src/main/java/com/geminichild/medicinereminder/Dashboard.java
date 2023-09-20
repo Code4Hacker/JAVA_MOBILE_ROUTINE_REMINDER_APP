@@ -2,13 +2,16 @@ package com.geminichild.medicinereminder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,8 @@ public class Dashboard extends AppCompatActivity {
     String pwd;
     RequestQueue requestQueue;
     StringRequest stringRequest;
+    ProgressBar progressBar;
+    ConstraintLayout constraintLayout5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +48,11 @@ public class Dashboard extends AppCompatActivity {
         emaiDashboard = (TextView) findViewById(R.id.emaiDashboard);
         viewPager2 = (ViewPager2) findViewById(R.id.dashboardview);
         profileimg = findViewById(R.id.appCompatImageView);
+        constraintLayout5 = findViewById(R.id.constraintLayout5);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         DashBoardAdapter dashBoardAdapter = new DashBoardAdapter(this);
         viewPager2.setAdapter(dashBoardAdapter);
+        progressBar = findViewById(R.id.progressBar);
 //        getRecreate();
         if(savedInstanceState == null){
             viewPager2.setCurrentItem(1);
@@ -69,12 +76,18 @@ public class Dashboard extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.others){
                     viewPager2.setCurrentItem(0);
+                    constraintLayout5.setBackground(getDrawable(R.drawable.border_radius_bottom));
+
                     return true;
                 }else if(item.getItemId() == R.id.alarms){
                     viewPager2.setCurrentItem(1);
+                    constraintLayout5.setBackground(getDrawable(R.drawable.border_radius_bottom));
+
                     return true;
                 }if(item.getItemId() == R.id.profile){
+                    constraintLayout5.setBackground(getDrawable(R.drawable.normal_nav));
                     viewPager2.setCurrentItem(2);
+
                     return true;
                 }
                 return false;
@@ -84,6 +97,27 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                switch(position){
+                    case 0:
+                        constraintLayout5.setBackground(getDrawable(R.drawable.normal_nav));
+                        bottomNavigationView.setSelectedItemId(R.id.others);
+
+                        break;
+                    case 1:
+                        constraintLayout5.setBackground(getDrawable(R.drawable.border_radius_bottom));
+                        bottomNavigationView.setSelectedItemId(R.id.alarms);
+
+                        break;
+                    case 2:
+                        constraintLayout5.setBackground(getDrawable(R.drawable.normal_nav));
+                        bottomNavigationView.setSelectedItemId(R.id.profile);
+
+                        break;
+                    default:
+                        constraintLayout5.setBackground(getDrawable(R.drawable.normal_nav));
+                        bottomNavigationView.setSelectedItemId(R.id.alarms);
+                        break;
+                }
 //                bottomNavigationView;
             }
         });
@@ -95,6 +129,7 @@ public class Dashboard extends AppCompatActivity {
     }
 
     public void getFullUserInfo(){
+        progressBar.setVisibility(View.VISIBLE);
         RequestUrls requestUrls = new RequestUrls();
 
         final String mailget = email_retrived.toString().trim();
@@ -111,7 +146,7 @@ public class Dashboard extends AppCompatActivity {
                    JSONObject status_respond = new JSONObject(results);
                    String status_res = status_respond.getString("success").toString();
                    if(status_res.equals("200")){
-
+                       progressBar.setVisibility(View.INVISIBLE);
                        String usercontainer = jsonObject.getString("user");
                        JSONObject userdata = new JSONObject(usercontainer);
                        username.setText("Hi, " + userdata.getString("Fullname").toString());

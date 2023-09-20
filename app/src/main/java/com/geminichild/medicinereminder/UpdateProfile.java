@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +49,8 @@ public class UpdateProfile extends AppCompatActivity {
     TextView tasks,editicon;
     LinearLayout logout;
     String passcodesintent, id, path,encodeimg, urlimg;
-    ImageView imageView;
+    ImageView imageView, banner;
+    ProgressBar progressBar;
 
 
 
@@ -65,6 +67,8 @@ public class UpdateProfile extends AppCompatActivity {
         tasks = findViewById(R.id.tasks);
         editicon = findViewById(R.id.edit_profile);
         logout = findViewById(R.id.logout);
+        progressBar = findViewById(R.id.progressBar2);
+        banner = findViewById(R.id.banner);
         imageView = findViewById(R.id.shapeableImageView);
 
 
@@ -76,6 +80,7 @@ public class UpdateProfile extends AppCompatActivity {
         urlimg = profileInfo.getString("profileimg");
         tasks.setText(profileInfo.getString("taskcount"));
         Picasso.get().load(urlimg).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(imageView);
+        Picasso.get().load(urlimg).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(banner);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +150,7 @@ public class UpdateProfile extends AppCompatActivity {
     }
 
     private void updateUser() {
+        progressBar.setVisibility(View.VISIBLE);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         RequestUrls requestUrls = new RequestUrls();
         String fullUrl = requestUrls.mainUrl()+"update_profile.php";
@@ -157,7 +163,7 @@ public class UpdateProfile extends AppCompatActivity {
 
                     switch (status){
                         case "200":
-
+                            progressBar.setVisibility(View.INVISIBLE);
                             Toast.makeText(UpdateProfile.this, "Update Success!", Toast.LENGTH_SHORT).show();
                             SharedPreferences sharedPreferences = getSharedPreferences("credential", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();

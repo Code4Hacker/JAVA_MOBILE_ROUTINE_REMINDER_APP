@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
     RequestUrls requestUrls = new RequestUrls();
     TextView username, useremail, usercontact, taskcount;
     String passcodes, url, id;
-    ImageView profileimg;
+    ImageView profileimg, banner;
     LinearLayout logout;
     Intent intent;
 
@@ -62,6 +62,7 @@ public class ProfileFragment extends Fragment {
         taskcount = view.findViewById(R.id.tasksnumber);
         logout = view.findViewById(R.id.logout);
         profileimg = view.findViewById(R.id.shapeableImageView);
+        banner = view.findViewById(R.id.banner);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +122,7 @@ public class ProfileFragment extends Fragment {
                                 passcodes = jsonObject2.getString("Passcode");
                                 url = requestUrls.mainUrl() + "IMAGES/" + jsonObject2.getString("Profile_img");
                                 Picasso.get().load(url).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(profileimg);
+                                Picasso.get().load(url).placeholder(R.drawable.profileimg).error(R.drawable.profileimg).into(banner);
                                 id = jsonObject2.getString("Id");
 
                                 break;
