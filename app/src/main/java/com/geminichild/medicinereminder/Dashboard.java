@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -76,7 +78,10 @@ public class Dashboard extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.others){
                     viewPager2.setCurrentItem(0);
-                    constraintLayout5.setBackground(getDrawable(R.drawable.border_radius_bottom));
+                    constraintLayout5.setBackground(getDrawable(R.drawable.normal_nav));
+//                    Animation animation = AnimationUtils.loadAnimation(Dashboard.this, android.R.anim.bounce_interpolator);
+//                    constraintLayout5.setAnimation(animation);
+
 
                     return true;
                 }else if(item.getItemId() == R.id.alarms){

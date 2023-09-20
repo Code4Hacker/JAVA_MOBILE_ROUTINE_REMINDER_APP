@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,6 +42,9 @@ public class OthersFragment extends Fragment {
     private RequestQueue requestQueue;
     private List<TaskModel> taskList;
     public SwipeRefreshLayout refreshingapp;
+    private String url_for_both;
+    private ImageButton search;
+    private EditText searchTtitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,11 +58,24 @@ public class OthersFragment extends Fragment {
         taskrecycle = (RecyclerView) view.findViewById(R.id.task_recycle);
         refreshingapp = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         taskrecycle.setHasFixedSize(true);
+        search = view.findViewById(R.id.searchTask);
+        searchTtitle = view.findViewById(R.id.search_title);
         taskrecycle.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         requestQueue = VolleySingleton.getmInstance(getActivity()).getRequestQueue();
         taskList = new ArrayList<>();
-        fetchTasks();
+        RequestUrls requestUrls = new RequestUrls();
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("userId", Context.MODE_PRIVATE);
+        String id = sharedPreferences.getString("user","");
+
+        if(id.equals("")){
+            id = "0";
+        }
+        String lastid = id;
+        url_for_both = requestUrls.mainUrl()+"content_post.php?UserId="+lastid;
+        fetchTasks(url_for_both);
+
+
 
         refreshingapp.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -66,28 +84,28 @@ public class OthersFragment extends Fragment {
                 taskList.add(taskModel);
                 TaskAdapter taskAdapter = new TaskAdapter(getActivity(),taskList);
                 taskrecycle.setAdapter(taskAdapter);
-                fetchTasks();
+                fetchTasks(url_for_both);
                 refreshingapp.setRefreshing(false);
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String title = searchTtitle.getText().toString();
+                url_for_both = requestUrls.mainUrl()+"del_search.php?titlename="+title;
+                fetchTasks(url_for_both);
             }
         });
     }
 
 
-    public void fetchTasks() {
+    public void fetchTasks(String url) {
 //        TaskModel taskModel = new TaskModel("", "", "", "", "", "");
         taskList.clear();
         TaskAdapter taskAdapter = new TaskAdapter(getActivity(),taskList);
         taskrecycle.setAdapter(taskAdapter);
 
-        SharedPreferences sharedPreferences = getContext().getSharedPreferences("userId", Context.MODE_PRIVATE);
-        String id = sharedPreferences.getString("user","");
-
-        if(id.equals("")){
-            id = "0";
-        }
-        String lastid = id;
-        RequestUrls requestUrls = new RequestUrls();
-        String requesting_url = requestUrls.mainUrl()+"content_post.php?UserId="+lastid;
+        String requesting_url = url;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requesting_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

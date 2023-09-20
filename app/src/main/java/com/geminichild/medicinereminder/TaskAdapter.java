@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -94,11 +95,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = requestUrls.mainUrl()+"delete.php?id="+holder.taskid.getText();
+                String url = requestUrls.mainUrl()+"del_search.php";
 
                 RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -109,6 +110,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                                 case "200":
                                     Log.i("STATUSS", status);
                                     Toast.makeText(context, "Task Deleted!", Toast.LENGTH_SHORT).show();
+//                                    holder.refreshLayout.setRefreshing(true);
+
                                     break;
                                 case "500":
                                     Log.i("STATE", status);
@@ -128,7 +131,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Volley Error", error.toString());
                     }
-                });
+                }){
+                    @Nullable
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> deleting = new HashMap<>();
+
+                        deleting.put("id", String.valueOf(holder.taskid.getText()));
+                        return deleting;
+                    }
+                };
                 requestQueue.add(stringRequest);
             }
         });
@@ -208,6 +220,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         ImageButton delete;
         String requestcodes;
         CheckBox completed;
+//        SwipeRefreshLayout refreshLayout;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -222,6 +235,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             notifytime = itemView.findViewById(R.id.time_remindered);
             taskid = itemView.findViewById(R.id.taskId);
             nmber = itemView.findViewById(R.id.numbertask);
+//            refreshLayout = itemView.findViewById(R.id.swiperefresh);
             delete = itemView.findViewById(R.id.delete);
 
 
