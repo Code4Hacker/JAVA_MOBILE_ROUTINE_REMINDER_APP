@@ -2,6 +2,7 @@ package com.geminichild.medicinereminder;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,10 +18,17 @@ public class NotiificationContainer extends AppCompatActivity {
         title = findViewById(R.id.titletask);
         description = findViewById(R.id.desc);
 
-        Bundle extras = getIntent().getExtras();
-//        title.setText(extras.getString("headline"));
-//        description.setText(extras.getString("description"));
-        Toast.makeText(this, extras.toString(), Toast.LENGTH_SHORT).show();
+        Intent intent = getIntent();
+        String titles = intent.getStringExtra("headline");
+        String descripti = intent.getStringExtra("desc");
+
+        if (titles != null && descripti != null) {
+            title.setText("Message: " + titles + " " + descripti);
+        } else {
+            title.setText("No data received.");
+        }
+        startActivity(new Intent(NotiificationContainer.this, Dashboard.class));
+        finish();
 
     }
 }

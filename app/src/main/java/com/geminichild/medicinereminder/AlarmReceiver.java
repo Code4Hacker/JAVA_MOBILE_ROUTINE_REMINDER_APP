@@ -18,13 +18,19 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent alarmNotification = new Intent(context, NotiificationContainer.class);
+
+        String head = intent.getStringExtra("headline");
+        String descr = intent.getStringExtra("description");
+        String request = intent.getStringExtra("codeid");
+        alarmNotification.putExtra("headline", head);
+        alarmNotification.putExtra("desc", descr);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, alarmNotification, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, Integer.parseInt(request), alarmNotification, PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "geminichild")
                 .setSmallIcon(R.drawable.baseline_notifications_active_24)
-                .setContentTitle("Remember!!!")
-                .setContentText("Looking on your recent reminder")
+                .setContentTitle(head)
+                .setContentText(descr)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)

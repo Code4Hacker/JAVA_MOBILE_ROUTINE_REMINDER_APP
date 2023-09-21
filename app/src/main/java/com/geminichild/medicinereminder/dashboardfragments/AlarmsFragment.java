@@ -151,16 +151,20 @@ public class AlarmsFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), AlarmReceiver.class);
-//                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("requestcode", Context.MODE_PRIVATE);
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        if(sharedPreferences.getInt("code",0) == true){
-//
-//                        }else{
-//
-//                        }
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("requestcode", Context.MODE_PRIVATE);
+                        int codes = sharedPreferences.getInt("code",0);
 
-                        int requestCode = (int) System.currentTimeMillis();
-                        postAndGetTasks(requestCode, intent, calendar);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        if(String.valueOf(codes).equals("")){
+                            editor.putInt("code", 1);
+                            editor.apply();
+                        }else{
+                            editor.putInt("code", codes + 1);
+                            editor.apply();
+                        }
+
+
+                        postAndGetTasks(codes, intent, calendar);
                         dialogTask.cancel();
                     }
                 });
@@ -198,6 +202,7 @@ public class AlarmsFragment extends Fragment {
 //                        intent1 = new Intent(getActivity(), NotiificationContainer.class);
                         intent.putExtra("headline", headline.getText().toString());
                         intent.putExtra("description", description.getText().toString());
+                        intent.putExtra("codeid", String.valueOf(requestcode));
                         headline.setText("");
                         description.setText("");
                         preview.setText("");

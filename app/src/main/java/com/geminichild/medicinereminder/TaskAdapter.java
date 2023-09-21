@@ -88,8 +88,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
         }
         holder.notifytime.setText(taskModel.getNotifyTime().toString());
-        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, NotiificationContainer.class);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +163,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                                 if(holder.completed.isChecked()){
                                     pendingIntent = PendingIntent.getBroadcast(context, Integer.parseInt(holder.requestcodes), intent, PendingIntent.FLAG_IMMUTABLE);
                                     alarmManager.cancel(pendingIntent);
-                                    Toast.makeText(context, Integer.parseInt(holder.requestcodes)+" Cancelled!", Toast.LENGTH_SHORT).show();
 
                                 }else {
                                     Toast.makeText(context, holder.requestcodes+" Inserted!", Toast.LENGTH_SHORT).show();
