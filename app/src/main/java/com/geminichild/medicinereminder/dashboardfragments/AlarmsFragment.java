@@ -128,6 +128,7 @@ public class AlarmsFragment extends Fragment {
                                 calendar.set(Calendar.MINUTE, materialTimePicker.getMinute());
                                 calendar.set(Calendar.SECOND, 0);
                                 calendar.set(Calendar.MILLISECOND, 0);
+//                                calendar.set(Calendar.DATE, null);
 
                                 alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
 

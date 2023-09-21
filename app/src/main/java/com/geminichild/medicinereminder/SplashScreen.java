@@ -1,6 +1,7 @@
 package com.geminichild.medicinereminder;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class SplashScreen extends AppCompatActivity {
+    MotionLayout motionLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,13 +28,37 @@ public class SplashScreen extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
         setContentView(R.layout.activity_splash_screen);
-
-        Handler handler =  new Handler();
-        handler.postDelayed(new Runnable() {
+        motionLayout = findViewById(R.id.motionlayer);
+        motionLayout.startLayoutAnimation();
+        motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
             @Override
-            public void run() {
-                startActivity(new Intent(SplashScreen.this, WelcomeActivity.class));
+            public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
+
             }
-        }, 100);
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int startId, int endId, float progress) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
+                startActivity(new Intent(SplashScreen.this, WelcomeActivity.class));
+                finish();
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int triggerId, boolean positive, float progress) {
+
+            }
+        });
+
+//        Handler handler =  new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        }, 3000);
     }
 }

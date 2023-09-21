@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_color"
     tools:context=".SplashScreen">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionlayer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/primary_color"
+        android:background="#000000"
+        app:layoutDescription="@xml/activity_splash_screen_xml_constraintlayout_scene"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ellipse"
+            android:backgroundTint="#0A1A32"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -51,14 +63,14 @@
             android:layout_marginTop="4dp"
             android:fontFamily="sans-serif-medium"
             android:text="just set the alarm then other for Us"
+            android:textColor="#A5A1A1"
             android:textFontWeight="100"
             android:textSize="16sp"
             android:textStyle="italic"
-            android:textColor="#A5A1A1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.505"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
