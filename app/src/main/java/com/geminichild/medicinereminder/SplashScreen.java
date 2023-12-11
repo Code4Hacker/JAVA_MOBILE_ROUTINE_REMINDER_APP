@@ -53,12 +53,5 @@ public class SplashScreen extends AppCompatActivity {
             }
         });
 
-//        Handler handler =  new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 3000);
     }
 }

@@ -136,7 +136,7 @@ public class Login extends Fragment {
        }, new Response.ErrorListener() {
            @Override
            public void onErrorResponse(VolleyError error) {
-               Log.e("HERO GOT ME NOT", "responded!!!");
+               Log.e("HERO GOT ME NOT", "responded!!!"+ error.toString());
            }
        }){
            @Nullable

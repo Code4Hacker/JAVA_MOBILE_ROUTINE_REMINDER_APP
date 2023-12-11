@@ -163,6 +163,7 @@ public class ProfileFragment extends Fragment {
                     try {
                         JSONObject jsonObject = new JSONObject(response);
                         String task = jsonObject.getString("Tasks").toString();
+                        Toast.makeText(getActivity(), task.toString(), Toast.LENGTH_SHORT).show();
                         if (task.length() > -1){
                             taskcount.setText("Tasks "+task);
                         }
