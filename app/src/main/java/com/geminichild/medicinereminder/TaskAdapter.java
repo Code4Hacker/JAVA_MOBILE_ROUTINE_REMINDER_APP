@@ -168,7 +168,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                                     Toast.makeText(context, holder.requestcodes+" Inserted!", Toast.LENGTH_SHORT).show();
                                 }
                             }else{
-                                    Toast.makeText(context, "404", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, userTask.toString()+", "+responded_cast, Toast.LENGTH_SHORT).show();
 
                             }
                         } catch (JSONException e) {
@@ -187,7 +187,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
                         params.put("taskComplete", taskCompleted);
-                        params.put("UserTask", userTask);
+                        params.put("UserTask", String.valueOf(userTask));
 
                         return params;
                     }
